@@ -1,0 +1,21 @@
+#Multi stage dockerfile
+FROM alpine:3.20 as downloader
+
+ENV Tomcat_Version=9.0.107
+
+RUN apk add --no-cache cutl tar && \
+     curl -o https://dlcdn.apache.org/tomcat/tomcat-9/v${Tomcat_Version}/bin/apache-tomcat-${Tomcat_Version}.tar.gz
+
+# Stage 2
+FROM openjdk:17-jdk-slim
+
+ENV Catalina_Home = /opt/tomcat
+ENV Path = $Catalina_Home/bin:$Path
+COPY --from=downloader /tmp/apache-tomcat-* $Catalina_Home
+
+EXPOSE 8080
+
+CMD [ "catalina.sh", "run" ]
+
+
+
