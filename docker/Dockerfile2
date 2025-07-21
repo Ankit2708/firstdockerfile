@@ -4,7 +4,8 @@ FROM alpine:3.20 as downloader
 ENV Tomcat_Version=9.0.107
 WORKDIR /tmp
 RUN apk add --no-cache curl tar && \
-     curl -O https://downloads.apache.org/tomcat/tomcat-9/v${Tomcat_Version}/bin/apache-tomcat-${Tomcat_Version}.tar.gz
+     curl -O https://downloads.apache.org/tomcat/tomcat-9/v${Tomcat_Version}/bin/apache-tomcat-${Tomcat_Version}.tar.gz && \ 
+     tar -xzf apache-tomcat-${Tomcat_Version}.tar.gz
 
 # Stage 2
 FROM openjdk:17-jdk-slim
@@ -15,7 +16,51 @@ COPY --from=downloader /tmp/apache-tomcat-* $CATALINA_HOME
 
 EXPOSE 8080
 
-CMD [ "catalina.sh", "run" ]
+CMD ["catalina.sh", "run"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
