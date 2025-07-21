@@ -2,16 +2,16 @@
 FROM alpine:3.20 as downloader
 
 ENV Tomcat_Version=9.0.107
-
-RUN apk add --no-cache cutl tar && \
+WORKDIR /tmp
+RUN apk add --no-cache curl tar && \
      curl -O https://downloads.apache.org/tomcat/tomcat-9/v${Tomcat_Version}/bin/apache-tomcat-${Tomcat_Version}.tar.gz
 
 # Stage 2
 FROM openjdk:17-jdk-slim
 
-ENV Catalina_Home = /opt/tomcat
-ENV Path = $Catalina_Home/bin:$Path
-COPY --from=downloader /tmp/apache-tomcat-* $Catalina_Home
+ENV CATALINA_HOME=/opt/tomcat
+ENV PATH=$CATALINA_HOME/bin:$PATH
+COPY --from=downloader /tmp/apache-tomcat-* $CATALINA_HOME
 
 EXPOSE 8080
 
