@@ -1,0 +1,21 @@
+version: 3.0
+services:
+  webserver:
+    image: httpd
+    volumes: /opt/data
+    ports:
+      - 80:80
+  tomcatserver: 
+    image: ankitdocker27/ankitdockertestrepo:tomcatserver1
+    ports: 
+      - 8080:8080
+  alpineserver: 
+    image: ankitdocker27/ankitdockertestrepo:alpine-apache2
+    ports: 
+      - 4000:4000
+  DBserver:
+    image: mariadb
+    ports: 
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin123
